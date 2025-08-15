@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>متجر الإكسسوارات ساعات — Accessories Store</title>
+  <style>
+    /* --- Palette & basics --- */
+    :root{
+      --bg:#0b0b0b;
+      --card:#0f0f10;
+      --gold:#d4af37;
+      --muted:#bfbfbf;
+      --glass: rgba(255,255,255,0.02);
+      --radius:18px;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background:linear-gradient(180deg,#050505 0%, #0f0f10 100%);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      justify-content:center;
+      padding:32px 16px;
+    }
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:20px;
+      padding:28px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      border: 1px solid rgba(212,175,55,0.07);
+    }
+
+    /* header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+    .logo{
+      width:64px;height:64px;border-radius:12px;
+      background:linear-gradient(135deg,var(--gold),#b58e21);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#0b0b0b;
+      box-shadow: 0 6px 20px rgba(212,175,55,0.12);
+      font-size:18px;
+    }
+    .title{
+      line-height:1;
+    }
+    .title h1{margin:0;font-size:18px;}
+    .title p{margin:0;color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:10px;align-items:center}
+    .lang-btn{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted);
+      cursor:pointer;font-weight:600;
+    }
+    .lang-btn.active{border-color:var(--gold);color:var(--gold);box-shadow:0 6px 18px rgba(212,175,55,0.08)}
+
+    /* products grid */
+    .products{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;
+      margin:18px 0 28px 0;
+    }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:14px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{transform:translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.6) }
+    .imgwrap{height:220px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--glass); margin-bottom:12px}
+    .imgwrap img{width:100%;height:100%;object-fit:cover}
+
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .name{font-weight:700}
+    .price{color:var(--gold);font-weight:800}
+
+    .desc{color:var(--muted);font-size:13px;margin-top:8px}
+
+    /* order form */
+    .order{
+      margin-top:8px;
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+    .order .left{flex:1;min-width:280px}
+    .order .right{width:360px;min-width:260px;background:linear-gradient(180deg, rgba(212,175,55,0.03), rgba(255,255,255,0.01));padding:16px;border-radius:14px;border:1px solid rgba(212,175,55,0.06)}
+
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input[type="text"], input[type="tel"], textarea, select{
+      width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
+      background:transparent;color:#fff;font-size:14px
+    }
+    textarea{min-height:100px;resize:vertical}
+    .small{font-size:12px;color:var(--muted);margin-top:6px}
+
+    .cta{
+      display:flex;gap:8px;margin-top:12px;
+    }
+    .btn{
+      flex:1;padding:12px;border-radius:10px;border:0;cursor:pointer;font-weight:700;
+      background:var(--gold);color:#0b0b0b;
+      box-shadow: 0 8px 26px rgba(212,175,55,0.12);
+    }
+    .btn.secondary{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);box-shadow:none;
+    }
+
+    footer{margin-top:22px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .socials a{color:var(--muted);margin-left:8px;text-decoration:none;font-weight:700}
+
+    /* responsive */
+    @media (max-width:720px){
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+      .order{flex-direction:column}
+      .order .right{width:100%}
+      .controls{width:100%;justify-content:flex-end}
+    }
+
+    /* rtl helper (applied when arabic selected) */
+    .rtl{direction:rtl;text-align:right}
+    .ltr{direction:ltr;text-align:left}
+    .badge{display:inline-block;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap ltr" id="app">
+    <header>
+      <div class="brand">
+        <div class="logo">AS</div>
+        <div class="title">
+          <h1 data-en>A&M Watches</h1>
+          <h1 data-ar style="display:none">ساعات A&M</h1>
+          <p data-en>Luxury accessories — Cash on delivery</p>
+          <p data-ar style="display:none;color:var(--muted)">منتجات فاخرة — الدفع عند الاستلام</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="lang-btn active" id="btn-en">EN</button>
+        <button class="lang-btn" id="btn-ar">ع</button>
+      </div>
+    </header>
+
+    <!-- PRODUCTS -->
+    <section>
+      <div class="products" id="products">
+        <!-- product 1 -->
+        <article class="card" data-id="1">
+          <div class="imgwrap"><img src="product1.jpg" alt="Product 1"></div>
+          <div class="meta">
+            <div>
+              <div class="name" data-en>Black Classic Watch</div>
+              <div class="name" data-ar style="display:none">ساعة كلاسيك سوداء</div>
+              <div class="desc" data-en>Elegant matte black watch, unisex.</div>
+              <div class="desc" data-ar style="display:none">سودة ساعة casio.</div>
+            </div>
+            <div>
+              <div class="price">EGP 450</div>
+              <div class="badge" data-en>Best seller</div>
+              <div class="badge" data-ar style="display:none">الأكثر مبيعاً</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- product 2 -->
+        <article class="card" data-id="2">
+          <div class="imgwrap"><img src="product2.jpg" alt="Product 2"></div>
+          <div class="meta">
+            <div>
+              <div class="name" data-en>Gold Square Watch</div>
+              <div class="name" data-ar style="display:none">ساعة كلاسيك ذهبية</div>
+              <div class="desc" data-en>Premium gold finish, chic look.</div>
+              <div class="desc" data-ar style="display:none">ٍساعة casio ذهبية.</div>
+            </div>
+            <div>
+              <div class="price">EGP 520</div>
+              <div class="badge" data-en>New</div>
+              <div class="badge" data-ar style="display:none">جديد</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- product 3 -->
+        <article class="card" data-id="3">
+          <div class="imgwrap"><img src="product3.jpg" alt="Product 3"></div>
+          <div class="meta">
+            <div>
+              <div class="name" data-en>Emerald Dial Watch</div>
+              <div class="name" data-ar style="display:none">ساعة كلاسيك خضراء</div>
+              <div class="desc" data-en>Green dial for a unique statement.</div>
+              <div class="desc" data-ar style="display:none">ساعة casio خاضرة.</div>
+            </div>
+            <div>
+              <div class="price">EGP 480</div>
+              <div class="badge" data-en>Limited</div>
+              <div class="badge" data-ar style="display:none">محدودة</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ORDER -->
+    <section class="order">
+      <div class="left">
+        <h2 data-en>Place your order</h2>
+        <h2 data-ar style="display:none">اطلب الآن</h2>
+        <p class="small" data-en>Select a product and fill your details. Cash on delivery.</p>
+        <p class="small" data-ar style="display:none">اختر منتجاً واملأ بياناتك. الدفع عند الاستلام.</p>
+
+        <form id="orderForm">
+          <label data-en for="product">Product</label>
+          <label data-ar for="product" style="display:none">المنتج</label>
+          <select id="product" name="product" required>
+            <option value="Black Classic Watch">Black Classic Watch — EGP 450</option>
+            <option value="Gold Square Watch">Gold Square Watch — EGP 520</option>
+            <option value="Emerald Dial Watch">Emerald Dial Watch — EGP 480</option>
+          </select>
+
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <div style="flex:1">
+              <label data-en for="name">Full name</label>
+              <label data-ar for="name" style="display:none">الاسم بالكامل</label>
+              <input id="name" name="name" type="text" placeholder="Ahmed Ali" required>
+            </div>
+            <div style="width:140px">
+              <label data-en for="qty">Qty</label>
+              <label data-ar for="qty" style="display:none">الكمية</label>
+              <input id="qty" name="qty" type="text" value="1" required>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label data-en for="phone">Phone</label>
+            <label data-ar for="phone" style="display:none">التليفون</label>
+            <input id="phone" name="phone" type="tel" placeholder="01XXXXXXXXX" required>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label data-en for="addr">Address</label>
+            <label data-ar for="addr" style="display:none">العنوان</label>
+            <textarea id="addr" name="addr" placeholder="Your address for delivery" required></textarea>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label data-en for="notes">Notes</label>
+            <label data-ar for="notes" style="display:none">ملاحظات</label>
+            <input id="notes" name="notes" type="text" placeholder="Eg. Near the bakery">
+          </div>
+
+          <div class="cta">
+            <button type="submit" class="btn" id="submitBtn" data-en>Confirm Order — Cash on delivery</button>
+            <button type="button" class="btn secondary" id="resetBtn" data-en>Reset</button>
+
+            <button type="submit" class="btn" id="submitBtnAr" style="display:none" data-ar>تأكيد الطلب — الدفع عند الاستلام</button>
+            <button type="button" class="btn secondary" id="resetBtnAr" style="display:none" data-ar>إعادة</button>
+          </div>
+
+        </form>
+      </div>
+
+      <aside class="right">
+        <h3 data-en>Contact & support</h3>
+        <h3 data-ar style="display:none">تواصل معنا</h3>
+        <p class="small" data-en>WhatsApp: <a id="waLink" href="#" style="color:var(--gold);text-decoration:none">+20 10 XXXXXXXX</a></p>
+        <p class="small" data-ar style="display:none">واتساب: <a id="waLinkAr" href="#" style="color:var(--gold);text-decoration:none">+20 10 XXXXXXXX</a></p>
+
+        <div style="margin-top:12px">
+          <div class="small" data-en>Order summary</div>
+          <div class="small" data-ar style="display:none">ملخص الطلب</div>
+          <div id="summary" style="margin-top:8px;color:var(--muted);font-size:14px">—</div>
+        </div>
+
+        <div style="margin-top:16px">
+          <div class="small" data-en>Note</div>
+          <div class="small" data-ar style="display:none">ملاحظة</div>
+          <div class="small" data-en>We will call you to confirm and arrange delivery.</div>
+          <div class="small" data-ar style="display:none">سنتصل بك لتأكيد الطلب وترتيب التسليم.</div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      <div>
+        <div style="font-weight:700">Ahmed's Accessories</div>
+        <div class="small">© <span id="year"></span></div>
+      </div>
+      <div class="socials">
+        <a href="#" data-en>Instagram</a>
+        <a href="#" data-en>Facebook</a>
+        <a href="#" data-ar style="display:none">إنستجرام</a>
+        <a href="#" data-ar style="display:none">فيسبوك</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // initial config (edit these to your real contact info)
+    const SHOP_WHATSAPP = "+201142081710"; // put your number here with country code, no plus for wa.me link
+    const SHOP_EMAIL = "yourshop@example.com";
+
+    // language toggle
+    const btnEn = document.getElementById('btn-en');
+    const btnAr = document.getElementById('btn-ar');
+    const app = document.getElementById('app');
+
+    function setLang(lang){
+      const enEls = document.querySelectorAll('[data-en]');
+      const arEls = document.querySelectorAll('[data-ar]');
+      if(lang === 'ar'){
+        enEls.forEach(e => e.style.display = 'none');
+        arEls.forEach(e => e.style.display = '');
+        btnAr.classList.add('active'); btnEn.classList.remove('active');
+        app.classList.remove('ltr'); app.classList.add('rtl');
+        document.documentElement.lang = 'ar';
+      } else {
+        enEls.forEach(e => e.style.display = '');
+        arEls.forEach(e => e.style.display = 'none');
+        btnEn.classList.add('active'); btnAr.classList.remove('active');
+        app.classList.remove('rtl'); app.classList.add('ltr');
+        document.documentElement.lang = 'en';
+      }
+    }
+    btnEn.addEventListener('click', ()=> setLang('en'));
+    btnAr.addEventListener('click', ()=> setLang('ar'));
+
+    // init
+    setLang('ar'); // default to Arabic — change to 'en' if you prefer
+
+    // contact link
+    const waLink = document.getElementById('waLink');
+    const waLinkAr = document.getElementById('waLinkAr');
+    const clean = SHOP_WHATSAPP.replace(/\D/g,'');
+    waLink.href = "https://wa.me/" + clean;
+    waLink.innerText = SHOP_WHATSAPP;
+    waLinkAr.href = "https://wa.me/" + clean;
+    waLinkAr.innerText = SHOP_WHATSAPP;
+
+    // order logic (no backend) — prepares email & whatsapp text
+    const form = document.getElementById('orderForm');
+    const summary = document.getElementById('summary');
+    const yearSpan = document.getElementById('year');
+    yearSpan.innerText = new Date().getFullYear();
+
+    function buildSummary(data){
+      return `Product: ${data.product}\nQty: ${data.qty}\nName: ${data.name}\nPhone: ${data.phone}\nAddress: ${data.addr}\nNotes: ${data.notes || '-'}`
+        .replace(/\n/g, '<br>');
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const fd = new FormData(form);
+      const order = {
+        product: fd.get('product'),
+        qty: fd.get('qty'),
+        name: fd.get('name'),
+        phone: fd.get('phone'),
+        addr: fd.get('addr'),
+        notes: fd.get('notes')
+      };
+      // show summary
+      summary.innerHTML = buildSummary(order);
+
+      // prepare whatsapp message (encode)
+      const text = `طلب%20جديد%0A${encodeURIComponent(order.product)}%0Aالكمية:%20${order.qty}%0Aالاسم:%20${order.name}%0Aالموبايل:%20${order.phone}%0Aالعنوان:%20${order.addr}%0Aملاحظات:%20${order.notes || '-'}`;
+      if(clean.length > 5){
+        // open whatsapp chat
+        const w = confirm(document.documentElement.lang === 'ar' ? 'هل تريد ارسال الطلب عبر واتساب الآن؟' : 'Send order via WhatsApp now?');
+        if(w){
+          window.open("https://wa.me/" + clean + "?text=" + text, '_blank');
+        } else {
+          alert(document.documentElement.lang === 'ar' ? 'تم حفظ ملخص الطلب. سنتواصل معك قريبًا.' : 'Order summary saved. We will contact you soon.');
+        }
+      } else {
+        // fallback: mailto
+        const mailBody = `Order:%0A${encodeURIComponent(order.product)}%0AQty:%20${order.qty}%0AName:%20${encodeURIComponent(order.name)}%0APhone:%20${encodeURIComponent(order.phone)}%0AAddress:%20${encodeURIComponent(order.addr)}%0ANotes:%20${encodeURIComponent(order.notes)}`;
+        window.location.href = `mailto:${SHOP_EMAIL}?subject=New%20Order&body=${mailBody}`;
+      }
+    });
+
+    // reset
+    document.getElementById('resetBtn').addEventListener('click', ()=> form.reset());
+    document.getElementById('resetBtnAr').addEventListener('click', ()=> form.reset());
+
+    // make product cards clickable to preselect in form
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        const pid = card.getAttribute('data-id');
+        const sel = document.getElementById('product');
+        if(pid === '1') sel.value = "Black Classic Watch — EGP 450";
+        if(pid === '2') sel.value = "Gold Square Watch — EGP 520";
+        if(pid === '3') sel.value = "Emerald Dial Watch — EGP 480";
+        window.scrollTo({top: document.getElementById('orderForm').offsetTop - 20, behavior:'smooth'});
+      });
+    });
+  </script>
+</body>
+</html>
